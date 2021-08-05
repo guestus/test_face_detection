@@ -1,0 +1,12 @@
+Package                 Version
+Flask==2.0.1
+Flask-Login==0.5.0
+Flask-SQLAlchemy==2.5.1
+imagezmq==1.1.1
+numpy==1.18.5
+opencv-python==4.5.1.48
+Pillow==8.3.1
+scipy==1.6.1
+SQLAlchemy==1.4.22
+telepot==12.7
+tqdm==4.61.2
