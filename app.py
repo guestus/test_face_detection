@@ -1,11 +1,7 @@
 from website import create_app
 from flask import Flask
-from threading import current_thread,Lock
-from website import shared_stuff
-
 
 app = create_app()
-shared_stuff.lock = Lock()
 
     
 if __name__ == '__main__':

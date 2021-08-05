@@ -2,8 +2,8 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
-from face_recognition import FaceRecognitionThread
-from config import camera_url
+from .facerecognition import face_recognition
+from .facerecognition import config 
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
@@ -20,13 +20,13 @@ def create_app():
 
     from .views import views
     from .auth import auth
-    from .mytable import mytable
+    from .livestreaming import livestreaming
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
-    app.register_blueprint(mytable, url_prefix='/')
+    app.register_blueprint(livestreaming, url_prefix='/')
 
-    from .models import User, Note
+    from .models import User
 
     create_database(app)
 
@@ -38,7 +38,7 @@ def create_app():
     def load_user(id):
         return User.query.get(int(id))
 
-    x = FaceRecognitionThread(camera_url)
+    x = face_recognition.FaceRecognitionThread(config.camera_url)
     x.start()
     
     return app

@@ -1,5 +1,6 @@
 /old
-/data
-/checkpoint
-faces.db
-config.py
+/website/facerecognition/data
+/website/facerecognition/checkpoint
+/website/database.db
+/website/facerecognition/faces.db
+/website/facerecognition/config.py
