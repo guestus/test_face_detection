@@ -1,4 +1,5 @@
 /old
+**/__pycache__
 /website/facerecognition/data
 /website/facerecognition/checkpoint
 /website/database.db
