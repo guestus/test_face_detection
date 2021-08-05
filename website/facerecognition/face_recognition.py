@@ -11,7 +11,8 @@ import platform
 import PIL
 from datetime import datetime
 import imagezmq
-from threading import Thread
+import threading
+import ctypes
 from . import config
 from . import db
 from . import notificator
@@ -23,24 +24,26 @@ from . import notificator
 
  
  
-class FaceRecognitionThread(Thread):
+class FaceRecognitionThread(threading.Thread):
     def __init__(self, cap_source, needPreload = False, skipframes = 5, conf_threshold = 0.90):
         """Инициализация потока"""
-        Thread.__init__(self)
+        threading.Thread.__init__(self)
         self.cap_source = cap_source
         self.skipframes = skipframes
         self.conf_threshold = conf_threshold
         self.needPreload = needPreload
 
     def do_init(self):
-        self.faceDB = db.FacesDB('faces.db')
+        self.faceDB = db.FacesDB('website/facerecognition/faces.db')
         print(f'loaded {len(self.faceDB.known_faces)} faces')
-        self.sender = imagezmq.ImageSender(connect_to = 'tcp://*:5555', REQ_REP = False)
+        self.sender = imagezmq.ImageSender(connect_to = 'tcp://127.0.0.1:5555', REQ_REP = False)
         self.notify = notificator.TelegrammNotificator(chatid=config.chatid, auth=config.auth)
         #notify.sendMessage('Started.')
+        if len(self.faceDB.known_faces)==0:
+            self.do_preload()
 
     def do_preload(self):
-        data_root= join(pathlib.Path().resolve(),'data\\')
+        data_root= join(pathlib.Path().resolve(),'website/facerecognition/data')
         assert os.path.exists(data_root)
         print (f"Data root: {data_root}")
         onlyfiles = [f for f in os.listdir(data_root) if isfile(join(data_root, f))]
@@ -134,5 +137,21 @@ class FaceRecognitionThread(Thread):
     def run(self):
         self._mainloop_()
 
-
+    def get_id(self):
+ 
+        # returns id of the respective thread
+        if hasattr(self, '_thread_id'):
+            return self._thread_id
+        for id, thread in threading._active.items():
+            if thread is self:
+                return id
+  
+    def raise_exception(self):
+        thread_id = self.get_id()
+        res = ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id,
+              ctypes.py_object(SystemExit))
+        if res > 1:
+            ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id, 0)
+            print('Exception raise failure')
+      
 

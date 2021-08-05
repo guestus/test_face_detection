@@ -41,7 +41,7 @@ def create_app():
     x = face_recognition.FaceRecognitionThread(config.camera_url)
     x.start()
     
-    return app
+    return app, x
 
 
 def create_database(app):

@@ -11,7 +11,7 @@ livestreaming = Blueprint('livestreaming', __name__)
 cam = cv2.VideoCapture(0)
 
 def gen_frames():
-    receiver = imagezmq.ImageHub(open_port='tcp://localhost:5555', REQ_REP = False)
+    receiver = imagezmq.ImageHub(open_port='tcp://127.0.0.1:5555', REQ_REP = False)
     while True:
         # Pull an image from the queue
         camName, frame = receiver.recv_image()
