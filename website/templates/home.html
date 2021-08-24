@@ -1,0 +1,29 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
+%}
+<h1 align="center">Список лиц</h1>
+<ul class="list-group list-group-flush" id="notes">
+<table class="table">
+<thead>
+<tr>
+<th scope="col">Имя</th>
+<th scope="col">Время последнего детектирования</th>
+<th scope="col">Фото</th>
+</tr>
+</thead>
+ <tbody>
+  {% for x in table %}
+  <tr>
+    <th scope="col">{{ x[0] }}</th>
+    <td>{{ x[1] }}</td>
+	<td><img src="{{ x[2]}}"/></td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{#    <button type="button" class="close" onClick="deleteNote({{ note.id }})">
+      <span aria-hidden="true">&times;</span>
+    </button>
+#}
+  </li>
+</ul>
+{% endblock %}
