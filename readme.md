@@ -8,7 +8,8 @@ Flask do autorization and streaming clent part. Also shows all known faces.
 
 All nn models used with DNN opencv module:
 - face recognition - pretrained IRSE IR50 converted to ONNX
-- face detection - pretrained model from opencvlearning
+- face detection - pretrained model from opencv 3dparty (
+Quantized OpenCV face detection network)
 
 ## Usage
 pre requirements:
